@@ -24,8 +24,8 @@ public class MoneyTest {
         // When
 
         // Then
-        assertEquals(Money.dollar(5),Money.dollar(5));
-        assertNotEquals(Money.dollar(5),Money.dollar(6));
+        assertEquals(Money.dollar(5), Money.dollar(5));
+        assertNotEquals(Money.dollar(5), Money.dollar(6));
     }
 
     @Test
@@ -46,8 +46,8 @@ public class MoneyTest {
         // When
 
         // Then
-        assertEquals(Money.franc(5),Money.franc(5));
-        assertNotEquals(Money.franc(5),Money.franc(6));
+        assertEquals(Money.franc(5), Money.franc(5));
+        assertNotEquals(Money.franc(5), Money.franc(6));
     }
 
     @Test
@@ -68,7 +68,7 @@ public class MoneyTest {
         // When
 
         // Then
-        assertEquals("USD",Money.dollar(1).currency());
+        assertEquals("USD", Money.dollar(1).currency());
         assertEquals("CHF", Money.franc(1).currency());
     }
 
@@ -105,7 +105,7 @@ public class MoneyTest {
         // When
         Money result = bank.reduce(sum, "USD");
         // Then
-        assertEquals(Money.dollar(7),result);
+        assertEquals(Money.dollar(7), result);
     }
 
     @Test
@@ -116,5 +116,27 @@ public class MoneyTest {
         Money result = bank.reduce(Money.dollar(1), "USD");
         // Then
         assertEquals(Money.dollar(1), result);
+    }
+
+    @Test
+    public void testReduceMoneyForDifferentCurrencies() {
+        // Given
+        Bank bank = new Bank();
+        bank.addRate("CHF", "USD", 2);
+        // When
+        Money result = bank.reduce(Money.franc(2), "USD");
+        // Then
+        assertEquals(Money.dollar(1), result);
+    }
+
+    @Test
+    public void testIdentityRate() {
+        // Given
+
+        // When
+
+        // Then
+        assertEquals(1, new Bank().rate("USD", "USD"));
+        assertEquals(1, new Bank().rate("CHF", "CHF"));
     }
 }
